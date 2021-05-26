@@ -22,7 +22,20 @@
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-plugin-nuke-dist": "^1.0.1",
+    "pnotify": "^5.2.0",
     "posthtml-include": "^1.6.2",
     "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "basiclightbox": "^5.0.4",
+    "core-js": "^3.13.0",
+    "debounce": "^1.2.1",
+    "handlebars": "^4.7.7",
+    "lightbox2": "^2.11.3",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
+    "smoothscroll-polyfill": "^0.4.4",
+    "spin": "^0.0.1"
   }
 }
