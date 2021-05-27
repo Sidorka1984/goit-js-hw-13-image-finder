@@ -1,7 +1,11 @@
 import temtlateImage from './templates/templateImage.hbs'
 import './sass/main.scss';
 import NewsApiService from './js/apiService';
-import LoadMoreBtn from './js/components/load-more-btn'
+import LoadMoreBtn from './js/components/load-more-btn';
+import { info, error } from '@pnotify/core';
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+
 
 // const options = {
 //     headers: {
@@ -18,13 +22,13 @@ const loadMoreBtn = new LoadMoreBtn({
     hidden: true,
 });
 const newApiService = new NewsApiService();
-console.log(loadMoreBtn);
+// console.log(loadMoreBtn);
 
 
-console.log(newApiService);
+// console.log(newApiService);
 
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 
  
@@ -34,8 +38,13 @@ function onSearch(e){
     clearArticlesContainer();
 
     newApiService.query = e.currentTarget.elements.query.value;
-    if (newApiService.query === '') {
-        return alert('Please try again');
+    if (newApiService.query.trim() === '') {
+        loadMoreBtn.hide();
+        return info({
+            text: 'Please, try again',
+            delay: 1500,
+            closerHover: true,
+        });
     }
     loadMoreBtn.show();
     newApiService.resetPage();
@@ -46,12 +55,34 @@ function onSearch(e){
 
 
 function fetchArticles() {
-        loadMoreBtn.disable();
-     newApiService.fetchArticles().then(hits => {
-        
-        appendHitsMakup(hits);
-        loadMoreBtn.enable();
-    });
+    loadMoreBtn.disable();
+    return newApiService.fetchArticles().then(hits => {
+        setTimeout(() => {
+            appendHitsMakup(hits);
+            loadMoreBtn.enable();
+            if (hits.length === 0) {
+                loadMoreBtn.hide();
+                error({
+                    text: 'Please enter a valid request',
+                    delay: 1500,
+                    closerHover: true,
+                });
+            }
+        }, 200);
+    })       
+       
+}
+ function onLoadMore() {
+  fetchArticles()
+    .then(
+      setTimeout(() => {
+        window.scrollBy({
+          top: document.documentElement.clientHeight - 80,
+          behavior: 'smooth',
+        });
+      }, 2000),
+    )
+    .catch(error => console.log(error));
 }
 function appendHitsMakup(hits) {
     refs.articlesContainer.insertAdjacentHTML('beforeend', temtlateImage(hits));
@@ -60,4 +91,4 @@ function appendHitsMakup(hits) {
  
  function clearArticlesContainer() {
      refs.articlesContainer.innerHTML = '';
- }
+}

@@ -86,7 +86,7 @@ img {
 .stats,
 .stats-item {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 .stats {
   align-items: baseline;
@@ -99,17 +99,7 @@ img {
   margin: 0;
   padding: 20px 0;
 }
-.stats-item:not(:last-child) {
-  margin-right: 5px;
-}
-.stats-item {
-  align-items: center;
-  padding-right: 5px;
-}
-.stats-text {
-  font-size: 10px;
-  padding-left: 5px;
-}
+
 .material-icons {
   display: flex;
   align-items: baseline;
@@ -148,10 +138,11 @@ img {
   font-weight: 700;
   font-weight: 18px;
   height: 50px;
+  width: 200px;
+  justify-content: center;
 }
 .search-form-button {
   height: 20px;
   margin-left: 10px;
   height: 50px;
-  width: 100px;
 }
