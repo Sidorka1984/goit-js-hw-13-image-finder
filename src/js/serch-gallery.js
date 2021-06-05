@@ -6,6 +6,8 @@ import { info, error } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 
+import { onContainerClick } from './openModal';
+
 
 // const options = {
 //     headers: {
@@ -15,6 +17,7 @@ import '@pnotify/core/dist/BrightTheme.css';
 const refs = {
     searchForm: document.querySelector('.js-search-form'),
     articlesContainer: document.querySelector('.js-articles-container'),
+   
     // loadMoreBtn: document.querySelector('[data-action="load-more"]')
 };
 const loadMoreBtn = new LoadMoreBtn({
@@ -29,6 +32,7 @@ const newApiService = new NewsApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
+refs.articlesContainer.addEventListener('click', onContainerClick);
 
 
  
@@ -55,7 +59,7 @@ function onSearch(e){
 
 
 function fetchArticles() {
-    loadMoreBtn.disable();
+    loadMoreBtn.disabled();
     return newApiService.fetchArticles().then(hits => {
         setTimeout(() => {
             appendHitsMakup(hits);
